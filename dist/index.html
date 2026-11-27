@@ -14,15 +14,11 @@
 </dialog>
 <script>
   const demoIntro = document.querySelector('.demo-intro');
-  const demoIntroKey = 'roots.intro.seen';
-  let demoIntroSeen = false;
-  try { demoIntroSeen = localStorage.getItem(demoIntroKey) === '1'; } catch {}
   demoIntro.addEventListener('close', () => {
-    try { localStorage.setItem(demoIntroKey, '1'); } catch {}
     if (demoIntro.returnValue === 'plan' && location.hash !== '#plan') location.hash = 'plan';
     else document.querySelector('#app h1')?.focus();
   });
-  if (!demoIntroSeen && typeof demoIntro.showModal === 'function') {
+  if (typeof demoIntro.showModal === 'function') {
     document.addEventListener('DOMContentLoaded', () => demoIntro.showModal(), {once:true});
   }
 </script></body></html>
