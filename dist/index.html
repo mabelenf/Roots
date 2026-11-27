@@ -1,3 +1,28 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f9f5ed"><title>Roots · Berlin</title><link rel="stylesheet" href="style.css"><script defer src="app.js"></script></head>
-<body><header class="bar"><div class="shell bar-inner"><a class="brand" href="#plan"><span class="brand-icon">⌂</span> Roots<span class="period">.</span></a><a class="profile-link" href="#profile"><img src="john.jpg" alt="" width="36" height="36"> About John</a></div></header><main id="app" class="shell"></main><footer class="shell footer"><span>Roots · Berlin demo</span><button data-action="reset" class="text-btn">Reset demo</button></footer><div class="sr" id="notice" role="status"></div></body></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f9f5ed"><title>Roots · Berlin</title><link rel="stylesheet" href="style.css"><script defer src="app.js"></script><style>
+.demo-intro{width:min(100% - 32px,460px);max-height:calc(100% - 32px);border:1px solid var(--line);border-radius:22px;padding:24px;background:var(--paper);color:var(--ink);box-shadow:0 18px 60px #17344a38}
+.demo-intro::backdrop{background:#17344a70}
+.demo-intro .intro-profile{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.demo-intro h2{margin:0 0 12px;font-size:32px}.demo-intro p{margin-bottom:12px}.demo-intro .btn{width:100%;margin-top:6px}
+</style></head>
+<body><header class="bar"><div class="shell bar-inner"><a class="brand" href="#plan"><span class="brand-icon">⌂</span> Roots<span class="period">.</span></a><a class="profile-link" href="#profile"><img src="john.jpg" alt="" width="36" height="36"> About John</a></div></header><main id="app" class="shell"></main><footer class="shell footer"><span>Roots · Berlin demo</span><button data-action="reset" class="text-btn">Reset demo</button></footer><div class="sr" id="notice" role="status"></div><dialog class="demo-intro" aria-labelledby="demo-intro-title">
+  <div class="intro-profile"><img class="portrait" src="john.jpg" width="48" height="48" style="width:48px;height:48px" alt=""><span class="eyebrow">Example scenario</span></div>
+  <h2 id="demo-intro-title">Meet John</h2>
+  <p>John just moved to Berlin. He has a work visa and has found an apartment where he can register his address.</p>
+  <p>Explore his plan to see what he can do next, starting with address registration (Anmeldung).</p>
+  <form method="dialog"><button class="btn" value="plan" autofocus>View John’s plan</button></form>
+</dialog>
+<script>
+  const demoIntro = document.querySelector('.demo-intro');
+  const demoIntroKey = 'roots.intro.seen';
+  let demoIntroSeen = false;
+  try { demoIntroSeen = localStorage.getItem(demoIntroKey) === '1'; } catch {}
+  demoIntro.addEventListener('close', () => {
+    try { localStorage.setItem(demoIntroKey, '1'); } catch {}
+    if (demoIntro.returnValue === 'plan' && location.hash !== '#plan') location.hash = 'plan';
+    else document.querySelector('#app h1')?.focus();
+  });
+  if (!demoIntroSeen && typeof demoIntro.showModal === 'function') {
+    document.addEventListener('DOMContentLoaded', () => demoIntro.showModal(), {once:true});
+  }
+</script></body></html>
